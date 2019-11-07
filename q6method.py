@@ -168,7 +168,7 @@ def phase_finder(norm_param,coordinates,L):
 
 
 def read_xyz(filename):
-    a = 1
+
     m=[]
     
     xyz = open(filename)
@@ -193,9 +193,11 @@ def read_xyz(filename):
         norm = normalised_parameters(p)   
         sc = phase_finder(norm,coordinates,L)
         
-        
+        print("Processed configuration",a," in "+filename)
         a += 1
         m.append(sc)
+        
+
         
   
     xyz.close()        
