@@ -9,7 +9,7 @@ import pickle
 #There are 101 sets of 500 atoms. This code reads 1 of those sets, so will need
 #to set a loop
 
-L = 7.93701
+L = 7.93701 *2.0/5.0
 l = 6
 neighbour_dist = 1.5
 neighbour_dist_sqrd = neighbour_dist**2
@@ -91,7 +91,7 @@ def obtain_parameters(coordinates):
         s = param.tolist()
         parameters.append(s)
         a+=1
-    with open('solid.parameters.txt', 'ab') as filehandle:
+    with open('solid_small.parameters.txt', 'ab') as filehandle:
 # store the data as binary data stream
 #ab instead of wb, so it doesnt overwrite parameters
            
@@ -173,7 +173,8 @@ def read_xyz(filename):
     
     xyz = open(filename)
     
-    for a in range(101):
+    a = 0
+    while(True):
     
         atoms = []
         coordinates = []
@@ -194,7 +195,7 @@ def read_xyz(filename):
         sc = phase_finder(norm,coordinates,L)
         
         print("Processed configuration",a," in "+filename)
-        a += 1
+        a+=1
         m.append(sc)
         
 
@@ -203,6 +204,6 @@ def read_xyz(filename):
     xyz.close()        
     return m
 
-t= read_xyz("solid.xyz")
+t= read_xyz("solid_small.xyz")
 print(t)
 
