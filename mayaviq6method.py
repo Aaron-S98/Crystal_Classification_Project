@@ -3,7 +3,7 @@ import scipy as sc
 import numpy as np
 import pickle
 import scipy.special
-
+from mayavi import mlab
 
 #function to read the xyz file
 #this returns 500 xyz coordinates in a list of lists with 3 variables in each
@@ -86,11 +86,11 @@ def obtain_parameters(coordinates):
 #   Appends list of neighbours of each particle to a list 
         
         
-    with open('d.solid.parameters.txt', 'ab') as filehandle:
+    #with open('d.solid.parameters.txt', 'ab') as filehandle:
 # store the data as binary data stream
 #ab instead of wb, so it doesnt overwrite parameters
            
-        pickle.dump(parameters, filehandle)
+        #pickle.dump(parameters, filehandle)
             
     
     return parameters, neighbours
@@ -105,10 +105,11 @@ def normalised_parameters(parameters):
 
 #function normalises each parameter and returns it as a array of arrays
 
-def phase_finder(norm_param,neighbours,threshold_dist,min_count):
+def phase_finder(norm_param,coordinates,neighbours,threshold_dist,min_count):
     
-    a = 0
     solid_count = 0 
+    liquid_coordin = []
+    solid_coordin = []
     
     for a, i in enumerate(norm_param):
         
@@ -125,9 +126,15 @@ def phase_finder(norm_param,neighbours,threshold_dist,min_count):
 
         
         if count > min_count:
+            
             solid_count +=1
-    
-    return solid_count
+            solid_coordin.append(coordinates[a])
+            
+        else:
+            liquid_coordin.append(coordinates[a])
+            
+            
+    return solid_count,liquid_coordin,solid_coordin
 
 
 def read_xyz(filename):
@@ -162,7 +169,7 @@ def read_xyz(filename):
         
         p,neighbours = obtain_parameters(coordinates)
         norm = normalised_parameters(p)   
-        sc = phase_finder(norm,neighbours,threshold_dist,min_count)
+        sc,liquid_coordin,solid_coordin = phase_finder(norm,coordinates,neighbours,threshold_dist,min_count)
         
         print("Processed a configuration")
         
@@ -170,10 +177,39 @@ def read_xyz(filename):
         
         m.append(sc)
         
+        x_solid = []
+        y_solid = []
+        z_solid = []
+        
+        for u,v,w in solid_coordin:
+            x_solid.append(u)
+            y_solid.append(v)
+            z_solid.append(w)
+        
+        x_liquid = []
+        y_liquid = []
+        z_liquid = []
   
+        for f,g,h in liquid_coordin:
+            x_liquid.append(f)
+            y_liquid.append(g)
+            z_liquid.append(h)
+    
+        edge_x = [L/2]
+        edge_y = [L/2]
+        edge_z = [L/2]
+    
+        mlab.points3d(edge_x, edge_y, edge_z, scale_factor=L,color=(0.5,0.5,0.5), mode='cube',resolution=12,opacity=0.4)
+    
+    #produces a single transparent cube defining the boundaries crystal sturcture
+    
+        mlab.points3d(x_liquid, y_liquid, z_liquid, scale_factor=0.98,color=(0.1,0.1,0.9), mode='sphere',resolution=12,opacity=1)
+        mlab.points3d(x_solid, y_solid, z_solid, scale_factor=0.98,color=(0.9,0.1,0.1), mode='sphere',resolution=12,opacity=1)
+        mlab.show()
+    
     xyz.close()        
     return m
 
-t= read_xyz("solid.xyz")
+t= read_xyz("liquid.xyz")
 print(t)
 
