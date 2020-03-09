@@ -144,7 +144,7 @@ def read_xyz(filename):
     xyz = open(filename)
     
  #   for a in range(1):    
-    while w <= 10:
+    while (True):
     
         atoms = []
         coordinates = []
