@@ -18,7 +18,7 @@ neighbour_dist_sqrd = neighbour_dist**2
 
 def reduce_vector(i,j,L):
     
-# DQ constantly converting lists to numpy arrays is slow. Instead I've stored
+# constantly converting lists to numpy arrays is slow. Instead I've stored
 # the lists as numpy arrays right from the start.
     
     #vi = np.array(i) 
@@ -26,7 +26,7 @@ def reduce_vector(i,j,L):
     r = j - i
     d = r/L
                 
-# DQ: This is faster than a loop as it can be vectorized in numpy
+# This is faster than a loop as it can be vectorized in numpy
     d=d-np.floor(d+0.5)  
 
 #this corrects for the atoms clsoe to edge of box           
@@ -47,11 +47,10 @@ def obtain_parameters(coordinates):
 
 #gives list of all spherical harmonics for each particle 
 
-# DQ using enumerate is more "pythonic" than that you were doing....
+
     for a, i in enumerate(coordinates):
         s_harm = []
-        
-#moved b = 0 outside bracket,put back if it messes thinbgs        
+             
     
         for b, j in enumerate(coordinates):
             
@@ -76,15 +75,15 @@ def obtain_parameters(coordinates):
 
 
     with open('misalignedq30_test_q6.txt', 'ab') as filehandle:
-# store the data as binary data stream
-#ab instead of wb, so it doesnt overwrite parameters
+
            
         pickle.dump(parameters, filehandle)
-            
+
+# stores the data as binary data stream     
     
     return parameters
 
-#f
+#This function obtains the q6 vector for each particle in the configuration
 
 
 def normalised_parameters(parameters):
@@ -95,7 +94,7 @@ def normalised_parameters(parameters):
     
     return norm_array
 
-#function normalises each parameter and returns it as a array of arrays
+#function normalises each q6 vector and returns it as a array of arrays
 
 def phase_finder(norm_param,coordinates,L):
     
@@ -127,6 +126,9 @@ def phase_finder(norm_param,coordinates,L):
     
     return solid_count
 
+#This function checks if each particle has 7 conncetions.
+#If true, the particle is set as solid-like and appended to list
+#If false, the particle is set a liquid-like
 
 def read_xyz(filename):
 
@@ -171,14 +173,11 @@ def read_xyz(filename):
     xyz.close()        
     return m
 
+#This function repeats the first 3 functions over the number of configurations. 
+#Given that there is only 1 configuration, the while condition is set to execute only once.
+#timings were done using the time.time() function
+
 t= read_xyz("q30.xyz")
 
 print(t)
 
-x = [i for i in t if i>=495]
-#value of x
-print((sum(t)/50500)*100)
-print(len(x)/len(t)*100)
-print(len(t))
-print(((sum(t)/101)/500)*100)
-print(min(t))
