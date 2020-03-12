@@ -1,4 +1,6 @@
-# Crystal_Classification_Project_1stdraft
+# Computational_Recognition_of_Crystalline_Environments
+
+This is the GitHub repositry for all the python programs and jupyter notebooks used in this project.
 
 Reads xyz format file containing sets of co-ordinates defining multiple crystal lattices
 
