@@ -43,6 +43,9 @@ def GeTe_coords(filename):
       
     return coordinates_Ge, coordinates_Te
 
+
+#funtion obtains the coordinates of the Ge and Te atoms in an ASE file and puts them in seperate lists
+
 def read_xyz(filename):
 
     i = 0
@@ -81,6 +84,9 @@ def read_xyz(filename):
     xyz.close()        
     
     return 
+
+#This function take the coordinates of the postions of the Ge and Te atoms. THen seperates them into x, y and z components 
+#These components are then used to mark the location for the spheres in Mayavi used to mark Ge and Te positions relative to eachother.
 
 t= read_xyz("quenched_0.xyz")
 
