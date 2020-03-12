@@ -1,4 +1,4 @@
-# Computational_Recognition_of_Crystalline_Environments
+# Computational Recognition of Crystalline Environments
 
 This is the GitHub repositry for all the python programs and jupyter notebooks used in this project. The aim of this project was to find a faster method of classifying atoms than the established Ten Wolde method, without sacrificing accuracy. 
 
