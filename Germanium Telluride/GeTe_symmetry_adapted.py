@@ -5,10 +5,8 @@ import scipy.special
 import ase.spacegroup as spg
 import ase.neighborlist as nl
 from ase.io import read
-#function to read the xyz file
-#this returns 500 xyz coordinates in a list of lists with 3 variables in each
-#There are 101 sets of 500 atoms. This code reads 1 of those sets, so will need
-#to set a loop
+
+
 
 rho = 1
 L = 7.93701/(rho)**(1/3)
@@ -16,6 +14,8 @@ l = 6
 neighbour_dist = 4.25/(rho)**(1/3)
 neighbour_dist_sqrd = neighbour_dist**2
                   
+#This function seperates the Ge and Te coordinates in the ASE file. 
+#Each atom in the file also has its nearest neighbours identified along with the vector that links them
   
 def obtain_parameters(file):
 
@@ -31,9 +31,9 @@ def obtain_parameters(file):
     descriptors = []
 
 
-# gives list of all spherical harmonics for each particle 
+# This returns the seperated Ge Te vectors between their repective nearest neighbours
 
-# DQ using enumerate is more "pythonic" than that you were doing....
+
     for j in range(len(symbols)):
         
         indices = [c for c,atom in enumerate(FirstAtom) if atom==j]
@@ -66,9 +66,10 @@ def obtain_parameters(file):
         ord5_fn_6 = []
         
         b_ord4_fn_1 = []
-        
-# moved b = 0 outside bracket,put back if it messes things        
-
+               
+#List of the symmetry adapted functions for alpha and beta GeTe
+          
+          
         for a, i in enumerate(vectors):         
                 
                 mag_vector = np.linalg.norm(i)
@@ -163,7 +164,7 @@ def obtain_parameters(file):
         sb1 = sum(b_ord4_fn_1)
         
 
-#param1 and param2 are both 1d arrays (lengths 13 and 9), which contain the q6 and q4 set of vectors respectively, for one particle    
+#This calucates the magnitude of each of the symmetry adapted function and concatenates them into one descriptor   
     
         component_1 = np.sqrt(s11**2 + s12**2)
         component_2 = np.sqrt(s21**2 + s22**2 + s23**2)
@@ -175,20 +176,18 @@ def obtain_parameters(file):
         
         descr = [component_1,component_2,component_3,component_4,component_5,component_6]
 
-        
-# appending all of the descriptors for          
+          
         
         descriptors.append(descr)
 
-#parameters will have 500 1d arrays containing the 22 componet descriptor fo each particle in the configuration        
+#This function output a 500 componet 1d array, with each element containing a 6 componet descriptor for each particle in the configuration        
 
 
-   # with open('symmetry_adapted_GeTe_quenched.txt', 'ab') as filehandle:
+    with open('symmetry_adapted_GeTe_quenched.txt', 'ab') as filehandle:
 
         # store the data as binary data stream
-#ab instead of wb, so it doesnt overwrite parameters
            
-     #   pickle.dump(descriptors, filehandle)
+        pickle.dump(descriptors, filehandle)
             
        
   
@@ -221,9 +220,10 @@ def read_xyz(filename):
         
     xyz.close()        
     
-
     return p
 
+#this funtion executes the above processes  for a configuration of atoms from a specified file  
+  
 t= read_xyz("quenched_99.xyz")
 
 
