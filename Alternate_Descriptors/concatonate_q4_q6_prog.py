@@ -19,7 +19,7 @@ neighbour_dist_sqrd = neighbour_dist**2
 
 def reduce_vector(i,j,L):
     
-# DQ constantly converting lists to numpy arrays is slow. Instead I've stored
+# constantly converting lists to numpy arrays is slow. Instead I've stored
 # the lists as numpy arrays right from the start.
     
     #vi = np.array(i) 
@@ -48,13 +48,13 @@ def obtain_parameters(coordinates):
 
 # gives list of all spherical harmonics for each particle 
 
-# DQ using enumerate is more "pythonic" than that you were doing....
+
     for a, i in enumerate(coordinates):
         s_harm1 = []
         s_harm2 = []
         
         conc = []
-# moved b = 0 outside bracket,put back if it messes things        
+    
     
         for b, j in enumerate(coordinates):
             
@@ -106,6 +106,11 @@ def obtain_parameters(coordinates):
        pickle.dump(parameters, filehandle)
   
     return parameters
+
+
+#This function repeats this process over the number of configurations. 
+
+#timings were done using the time.time() function
 
 def read_xyz(filename):
 
