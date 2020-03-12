@@ -11,11 +11,12 @@ import time
 #to set a loop
 
 
-rho = 1.2
+rho = 1.0
 L = 7.93701/(rho)**(1/3)
 l = 6
 neighbour_dist = 1.5/(rho)**(1/3)
 
+#This function reads the ASE file and calculates the SOAP descriptor throuh the interface provided
 
 def soap_descriptors(coordinates):    
 
@@ -52,17 +53,21 @@ def soap_descriptors(coordinates):
     descriptors = desc.calc(my_atoms)["data"]
 
 
-   # with open('soap(n_max=9)_liquid(T=2.1)_test.txt', 'ab') as filehandle:
+    with open('soap(n_max=9)_liquid(T=2.1)_test.txt', 'ab') as filehandle:
        
        #store the data as binary data stream
        #ab instead of wb, so it doesnt overwrite parameters
            
-    #   pickle.dump(descriptors, filehandle)
-    
-
+       pickle.dump(descriptors, filehandle)
+   
    
     return descriptors
 
+
+
+#This function repeats this process over the number of configurations. 
+
+#timings were done using the time.time() function
 
 def read_xyz(filename):
 
