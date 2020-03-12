@@ -6,9 +6,9 @@ import scipy.special
 from mayavi import mlab
 
 #function to read the xyz file
-#this returns 500 xyz coordinates in a list of lists with 3 variables in each
-#There are 101 sets of 500 atoms. This code reads 1 of those sets, so will need
-#to set a loop
+#this returns 500 xyz coordinates in a list of lists with 500 and 26 components in each respectively
+
+
 
 L = 7.93701
 l = 6
@@ -49,13 +49,11 @@ def obtain_parameters(coordinates):
 
 #gives list of all spherical harmonics for each particle 
 
-# DQ using enumerate is more "pythonic" than that you were doing....
+
     for a, i in enumerate(coordinates):
         s_harm = []
         neighbours_a = []
         
-#moved b = 0 outside bracket,put back if it messes thinbgs        
-    
         for b, j in enumerate(coordinates):
             
             if a != b:
@@ -86,16 +84,16 @@ def obtain_parameters(coordinates):
 #   Appends list of neighbours of each particle to a list 
         
         
-    #with open('d.solid.parameters.txt', 'ab') as filehandle:
-# store the data as binary data stream
-#ab instead of wb, so it doesnt overwrite parameters
+    with open('d.solid.parameters.txt', 'ab') as filehandle:
+
+# stores the data as binary data stream
+
            
-        #pickle.dump(parameters, filehandle)
+        pickle.dump(parameters, filehandle)
             
     
     return parameters, neighbours
 
-#f
 
 
 def normalised_parameters(parameters):
@@ -136,6 +134,8 @@ def phase_finder(norm_param,coordinates,neighbours,threshold_dist,min_count):
             
     return solid_count,liquid_coordin,solid_coordin
 
+#This function above checks if each atom has 7 connections. If true it sets the particle to solid and if false it sets the particle to liquid.
+#Solid and liquid particles are both appended to seperate lists.
 
 def read_xyz(filename):
 
@@ -173,7 +173,8 @@ def read_xyz(filename):
         
         print("Processed a configuration")
         
-        
+        #this function loops over all the configurations and repeats the first 3 functions for every set of 500 atoms.
+        #There are 101 configurations
         
         m.append(sc)
         
@@ -206,6 +207,8 @@ def read_xyz(filename):
         mlab.points3d(x_liquid, y_liquid, z_liquid, scale_factor=0.98,color=(0.1,0.1,0.9), mode='sphere',resolution=12,opacity=1)
         mlab.points3d(x_solid, y_solid, z_solid, scale_factor=0.98,color=(0.9,0.1,0.1), mode='sphere',resolution=12,opacity=1)
         mlab.show()
+    
+    #assigns different coulors for the solid and liquid particles and uses the cooridantes as the centre of the spheres in the visualisation
     
     xyz.close()        
     return m
