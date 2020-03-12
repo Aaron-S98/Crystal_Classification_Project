@@ -44,11 +44,11 @@ import pickle
 
  
 
-L = 7.93701     # ?? Define
+L = 7.93701     # boundary length
 
-l = 6           # ?? Define
+l = 6           # order of spherical harmonics
 
-neighbour_dist = 1.5   # ?? Define
+neighbour_dist = 1.5   # nearest neighbour cut off distance
 
 neighbour_dist_sqrd = neighbour_dist**2
 
@@ -58,38 +58,7 @@ neighbour_dist_sqrd = neighbour_dist**2
 
 def reduce_vector(i,j,L):
 
-    """ Summary: ???
-
-   
-
-    Parameters
-
-    ----------
-
-    i : ???
-
-        ???
-
-    j : ??
-
-        ???
-
-    i : List tuple
-
-        ???
-
-       
-
-    Returns
-
-    ----------
-
-    ???
-
-        ????
-
-    """   
-
+ 
     vi = np.array(i)
 
     vj = np.array(j)           
@@ -142,7 +111,7 @@ def obtain_parameters(coordinates):
 
     List
 
-        ????
+       q6 descriptors
 
     """
 
@@ -298,7 +267,7 @@ def normalised_parameters(parameters):
 
     parameters : q6 vectors for each atom 
 
-        ???
+       
 
        
 
@@ -308,7 +277,7 @@ def normalised_parameters(parameters):
 
     normalised q6 vectors
 
-        ????
+       as a list
 
     """ 
 
@@ -492,7 +461,7 @@ def read_xyz(filename):
 
  
 
-#t= read_xyz("solid.xyz")
+
 
 t= read_xyz("solid.xyz")
 
