@@ -9,6 +9,10 @@ import scipy.special
 #There are 101 sets of 500 atoms. This code reads 1 of those sets, so will need
 #to set a loop
 
+
+# density scaling is applied to L and neighbour_dist parameters
+
+
 rho = 1.0
 L = 7.93701/(rho)**(1/3)
 l = 6
