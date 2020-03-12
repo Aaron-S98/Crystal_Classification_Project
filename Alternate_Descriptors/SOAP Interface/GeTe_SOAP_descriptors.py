@@ -6,17 +6,14 @@ import pickle
 import scipy.special
 from ase.io import read
 
-#function to read the xyz file
-#this returns 500 xyz coordinates in a list of lists with 3 variables in each
-#There are 101 sets of 500 atoms. This code reads 1 of those sets, so will need
-#to set a loop
+
 
 rho = 1
 L = 3/(rho)**(1/3)
 l = 6
 neighbour_dist = 4.25/(rho)**(1/3)
 
-
+#This function reads the ASE file and calculates the SOAP descriptor throuh the interface provided
 
 def soap_descriptors(filename):    
 
@@ -35,15 +32,19 @@ def soap_descriptors(filename):
     descriptors = desc.calc(my_atoms)["data"]
 
 
-  #  with open('soap(n_max=9)_GeTe_quenched.txt', 'ab') as filehandle:
+    with open('soap(n_max=9)_GeTe_quenched.txt', 'ab') as filehandle:
        
        #store the data as binary data stream
        #ab instead of wb, so it doesnt overwrite parameters
            
-  #     pickle.dump(descriptors, filehandle)
+       pickle.dump(descriptors, filehandle)
         
     return descriptors
 
+
+#This function repeats this process over the number of configurations. 
+#Given that there is only 1 configuration, the while condition is set to execute only once.
+#timings were done using the time.time() function
 
 def read_xyz(filename):
 
