@@ -20,7 +20,7 @@ threshold_dist = 0.5
 
 def reduce_vector(i,j,L):
     
-# DQ constantly converting lists to numpy arrays is slow. Instead I've stored
+# constantly converting lists to numpy arrays is slow. Instead I've stored
 # the lists as numpy arrays right from the start.
     
     #vi = np.array(i) 
@@ -28,7 +28,7 @@ def reduce_vector(i,j,L):
     r = j - i
     d = r/L
                 
-# DQ: This is faster than a loop as it can be vectorized in numpy
+# This is faster than a loop as it can be vectorized in numpy
     d=d-np.floor(d+0.5)  
 
 #this corrects for the atoms clsoe to edge of box           
@@ -49,12 +49,12 @@ def obtain_parameters(coordinates):
 
 #gives list of all spherical harmonics for each particle 
 
-# DQ using enumerate is more "pythonic" than that you were doing....
+
     for a, i in enumerate(coordinates):
         s_harm = []
         neighbours_a = []
         
-#moved b = 0 outside bracket,put back if it messes thinbgs        
+    
     
         for b, j in enumerate(coordinates):
             
@@ -95,8 +95,6 @@ def obtain_parameters(coordinates):
     
     return parameters, neighbours
 
-#f
-
 
 def normalised_parameters(parameters):
     norm_p = [[i / np.linalg.norm(j) for i in j] for j in parameters]
@@ -129,6 +127,8 @@ def phase_finder(norm_param,neighbours,threshold_dist,min_count):
     
     return solid_count
 
+
+#The function below repeats the processes above for each configuration of atoms in the file (loops for every config)
 
 def read_xyz(filename):
 
