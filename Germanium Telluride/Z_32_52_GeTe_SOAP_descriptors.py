@@ -6,15 +6,14 @@ import pickle
 import scipy.special
 from ase.io import read
 
-#function to read the xyz file
-#this returns 500 xyz coordinates in a list of lists with 3 variables in each
-#There are 101 sets of 500 atoms. This code reads 1 of those sets, so will need
-#to set a loop
 
 rho = 1
 L = 3/(rho)**(1/3)
 l = 6
 neighbour_dist = 4.25/(rho)**(1/3)
+
+#This function reads the ASE file and calculates the SOAP descriptor throuh the interface provided.
+#This function has 2 extra components that specify the Z of the atoms involved and the Z value of the descriptor you wan to produce
 
 
 def soap_descriptors(filename):    
@@ -32,23 +31,26 @@ def soap_descriptors(filename):
 
 
     desc = quippy.descriptors.Descriptor("soap cutoff=4.25 cutoff_transition_width=0.0 atom_sigma=0.7 n_species=2 Z=32 species_Z={32 52} n_max=8 l_max=6")
-    #
     
-    #for descriptors only for one atom type, use line 58 instead, with extra z component specified
-    #desc = quippy.descriptors.Descriptor("soap cutoff={} cutoff_transition_width=0.0 atom_sigma=0.7 Z=32 n_species=2 species_Z={32 52} n_max=8 l_max=6".format(neighbour_dist))
+    
+    
 # Pass the my_atoms object to this descriptor
 
     descriptors = desc.calc(my_atoms)["data"]
 
 
-    #with open('soap(n_max=8)_GeTe_alpha.txt', 'ab') as filehandle:
+    with open('soap(n_max=8)_GeTe_alpha.txt', 'ab') as filehandle:
        
-       #store the data as binary data stream
+       #stores the data as binary data stream
        #ab instead of wb, so it doesnt overwrite parameters
            
-     #  pickle.dump(descriptors, filehandle)
+       pickle.dump(descriptors, filehandle)
 
     return descriptors
+
+#This function repeats this process over the number of configurations. 
+#Given that there is only 1 configuration, the while condition is set to execute only once.
+#timings were done using the time.time() function
 
 def read_xyz(filename):
 
