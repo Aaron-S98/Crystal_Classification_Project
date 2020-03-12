@@ -49,7 +49,7 @@ def obtain_parameters(coordinates):
 
 # gives list of all spherical harmonics for each particle 
 
-# DQ using enumerate is more "pythonic" than that you were doing....
+
     for a, i in enumerate(coordinates):
         s_harm1 = []
 
